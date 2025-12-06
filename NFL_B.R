@@ -11,6 +11,10 @@ library(nflverse)
 library(ggrepel)
 library(GGally)
 library(stats)
+library(broom)
+library(kableExtra)
+
+
 
 data = load_pbp(2024)
 
@@ -67,8 +71,18 @@ pbp_run_r %>%
   stat_smooth(method = "lm") +
   theme_bw()
 
+# Multiple Regression Model
 
+pbp_run_r = 
+  pbp_run_r %>% 
+  mutate(down = as.character(down))
 
+expected_yards_r = 
+  lm(rushing_yards ~ 1 + down + ydstogo + down:ydstogo + yardline_100
+  + run_location + score_differential, data = pbp_run_r)
 
+pbp_run_r =
+  pbp_run_r %>% 
+  mutate(ryoe = resid(expected_yards_r))
 
-
+summary(expected_yards_r)
