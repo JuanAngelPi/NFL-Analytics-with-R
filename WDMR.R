@@ -13,12 +13,12 @@ library(kableExtra)
 library(pscl)
 
 
-pbp = load_pbp(2018:2022)
+pbp = load_pbp(2018:2022) #load the data
 
 
 
 
-pbp = pbp %>%
+pbp = pbp %>%  #get the points by the defense
   mutate(
     points_by_offense = posteam_score_post - posteam_score,
     points_by_defense = defteam_score_post - defteam_score
@@ -27,7 +27,7 @@ pbp = pbp %>%
 
 
 
-team_def = pbp %>%
+team_def = pbp %>% #get the defensive unit stats
   filter(!is.na(defteam)) %>%
   mutate(
     points_allowed = defteam_score_post - defteam_score
@@ -46,7 +46,7 @@ team_def = pbp %>%
 
 
 
-game_results = pbp %>%
+game_results = pbp %>% # get the wins 
   group_by(game_id, season) %>%
   summarize(
     home_team = first(home_team),
@@ -67,7 +67,7 @@ game_results = pbp %>%
 
 
 
-final_data = team_def %>%
+final_data = team_def %>% 
   left_join(
     game_results %>% select(season, team, wins),
     by = c("season", "defteam" = "team")
@@ -96,3 +96,5 @@ model %>%
 
 
 pR2(model)
+
+
