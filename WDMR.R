@@ -92,7 +92,7 @@ summary(model)
 
 model %>% 
   tidy(model, conf.int = TRUE, conf.level = 0.95, exponentiate = TRUE) %>% 
-  kbl(format = "pipe", digits = 2) %>% 
+  kbl(format = "pipe", digits = 3) %>% 
   kable_styling()
 
 
