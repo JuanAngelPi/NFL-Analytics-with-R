@@ -105,4 +105,4 @@ summary(model_2)
     kbl(format = "pipe", digits = 2) %>% 
     kable_styling()
 
-
+anova(model_1, test = "Chisq")

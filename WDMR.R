@@ -100,4 +100,5 @@ model %>%
 vif(model)
 pR2(model)
 
+anova(model, test = "Chisq")
 
