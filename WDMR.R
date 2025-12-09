@@ -82,7 +82,7 @@ nrow(final_data)
 final_data$win_binary <- ifelse(final_data$wins > 10, 1, 0)
 
 model = glm(
-  win_binary ~ sacks + interceptions + fumbles_forced + qb_hits + points_allowed + epa_per_play + success_rate,
+  win_binary ~ sacks + interceptions + fumbles_forced + qb_hits + points_allowed,
   data = final_data,
   family = binomial
 )
@@ -91,7 +91,7 @@ model = glm(
 summary(model)
 
 model %>% 
-  tidy(model, conf.int = FALSE, conf.level = 0.95, exponentiate = TRUE) %>% 
+  tidy(model, conf.int = TRUE, conf.level = 0.95, exponentiate = TRUE) %>% 
   kbl(format = "pipe", digits = 2) %>% 
   kable_styling()
 
