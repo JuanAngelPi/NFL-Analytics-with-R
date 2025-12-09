@@ -1,3 +1,7 @@
+#-------------------------------------------------------------------------
+#  MULTIPLE REGRESSION OF WINS BASED ON OFFENSIVE STATS
+#-------------------------------------------------------------------------
+
 
 library(tidyverse)
 library(dplyr)
@@ -69,17 +73,27 @@ final_data = offensive_team %>%
 
 final_data$win_binary = ifelse(final_data$wins > 10, 1, 0)
 
-model = glm(
-  win_binary ~ points_scored + total_epa + total_td, 
+model_1 = glm(
+  win_binary ~ points_scored, 
     data = final_data, 
     family = binomial )
 
-summary(model)
+summary(model_1)
 
-model %>% 
+model_1 %>% 
   tidy(model, conf.int = TRUE, conf.level = 0.95, exponentiate = TRUE) %>% 
   kbl(format = "pipe", digits = 2) %>% 
   kable_styling()
 
-pR2(model)
-vif(model)
+model_2 = lm(
+  points_scored ~  total_epa + total_td + plays, 
+    data = final_data)
+
+summary(model_2)
+
+  model_2 %>% 
+    tidy(model_2, conf.int = TRUE, conf.level = 0.95, exponentiate = FALSE) %>% 
+    kbl(format = "pipe", digits = 2) %>% 
+    kable_styling()
+
+
