@@ -94,7 +94,7 @@ model %>%
 
 
 
-
+vif(model)
 pR2(model)
 
 

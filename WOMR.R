@@ -14,16 +14,20 @@ library(kableExtra)
 library(pscl)
 library(car)
 
+# Load play-by-play data
+pbp = load_pbp(2018:2022) 
 
-pbp = load_pbp(2018:2022) #load the data
 
+# Compute offensive and defensive points
 pbp = pbp %>% 
   mutate(
     offense_points = posteam_score_post - posteam_score,
     defensive_points = defteam_score_post - defteam_score,
   )
 
-
+#---------------------------------------
+# Offensive stats by team
+#---------------------------------------
 offensive_team = pbp %>% 
   filter(!is.na(posteam)) %>% 
   mutate(
@@ -46,6 +50,9 @@ offensive_team = pbp %>%
     first_downs = sum(first_down, na.rm = TRUE)
   )
 
+#---------------------------------------
+# Game results / wins
+#---------------------------------------
 game_results = pbp %>% 
   group_by(season, game_id) %>% 
   summarize(
@@ -84,6 +91,8 @@ model_1 %>%
   tidy(model, conf.int = TRUE, conf.level = 0.95, exponentiate = TRUE) %>% 
   kbl(format = "pipe", digits = 2) %>% 
   kable_styling()
+
+pR2(model_1)
 
 model_2 = lm(
   points_scored ~  total_epa + total_td + plays, 
